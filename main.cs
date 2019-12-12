@@ -5,7 +5,7 @@ public class Program
 	public static void Main(string[] args)
 	{
 		//Начальная сумма денег
-    int cash = 1000;
+    int cash = 10000;
     
     //Экземпляр класса Random для генерации случайных чисел
 		var rand = new Random();
@@ -19,9 +19,12 @@ public class Program
       //Показываем статистику
 			ShowStats(ref cash);
 		}
-
+    
     //Увы, деньги кончились
     Console.WriteLine("Бабло кончилось");
+
+    //Это, чтобы консоль не закрывалась
+    Console.ReadKey();
 	}
 	
 	static void Game(ref Random rand, ref int cash)
