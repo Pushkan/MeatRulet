@@ -8,6 +8,12 @@ public class Program
   //Экземпляр класса Random для генерации случайных чисел
 	static Random rand = new Random();
 
+  //Переменная rate хранит значение коэффициента выигрыша. По умолчанию -1 (проигрыш)
+	static int rate = -1;
+
+  //Переменная хранит ставку в $
+  static int intGameCash = 0;
+
 	public static void Main(string[] args)
 	{        
 
@@ -34,7 +40,7 @@ public class Program
     int intPlayerInput = GetCell();
 
     ///Выбор денежной ставки
-    int intGameCash = GetBet();
+    GetBet();
 		
     //Генерация случайного числа 0..36 (Крутим рулетку)
     int randomValue = rand.Next(37);
@@ -42,31 +48,55 @@ public class Program
     string color = CheckColor(randomValue);
 		Console.WriteLine($"Выпало {randomValue} {color}");
 
-    //Переменная rate хранит значение коэффициента выигрыша. По умолчанию -1 (проигрыш)
-		int rate = -1;
-
     //Проверяем, выиграл ли игрок
 		switch (intPlayerInput)
 		{
 			case 38:
 				//Игрок ввёл красное
-				if(color == "красное") rate=1;				
+				if(color == "красное") rate = Math.Abs(rate) * 2;
+        else rate = -1;
 				break;
 			case 39:
         //Игрок ввёл чёрное
-				if(color == "черное") rate=1;
+				if(color == "черное") rate = Math.Abs(rate) * 2;
+        else rate = -1;
 				break;
 			default:
 				//Игрок ввёл число
-				if(intPlayerInput == randomValue) rate = 35;
+				if(intPlayerInput == randomValue) rate = Math.Abs(rate) * 35;
+        else rate = -1;
 				break;
 		};
 
     //Считаем выигрыш
 		intGameCash *= rate;
-		Console.WriteLine($"Выигрыш: {intGameCash} $");
-    //Добавляем к сумме денег
-		cash += intGameCash;
+		
+    if(rate > 0) 
+    {
+      //Если захочет преумножить выигрыш
+      if(true)
+      {
+        Console.WriteLine($"Хотите преумножить выигрыш? (коэффициенты переумножаются при победе)");
+      }
+      else
+      {
+        
+        Console.WriteLine($"Выигрыш: {intGameCash}$");
+
+        //Добавляем к сумме денег
+        cash += intGameCash;
+        rate = -1;
+        intGameCash = 0;
+      }
+    }
+    else
+    {
+      //Добавляем к сумме денег
+		  cash += intGameCash;
+      rate = -1;
+      intGameCash = 0;
+    }
+    
 	}
 	
 	static void ShowStats()
@@ -133,7 +163,7 @@ public class Program
     int intPlayerInput = -1;
     while(intPlayerInput == -1)
     {
-      Console.WriteLine("Выбери ставку: 0-36, red или black");
+      Console.WriteLine("Выбери ячейку: 0-36, red(r) или black(b)");
       //Ввод от пользователя (всегда string)
       string playerInput = Console.ReadLine(); 
       //Попытка перевести введенное значение в integer
@@ -149,10 +179,12 @@ public class Program
       {            
         switch (playerInput.ToLower()) //переводим в нижний регистр
         {				              
+          case "r":
           case "red":
             //Если пользователь ввёл "red", то возвращаем 38
             intPlayerInput = 38;
             break;
+          case "b":
           case "black":
             //Если пользователь ввёл "black", то возвращаем 39
             intPlayerInput = 39;
@@ -169,8 +201,6 @@ public class Program
 
   static int GetBet()
   {
-    //Переменная хранит значение денежной ставки
-    int intGameCash = 0;
     //Пока не введена корректная денежная ставка - цикл
 		while(intGameCash <= 0 || intGameCash > cash)
 		{
