@@ -2,10 +2,11 @@ using System;
 					
 public class Program
 {
+  //Начальная сумма денег
+  public static int cash = 10000;
+
 	public static void Main(string[] args)
 	{
-		//Начальная сумма денег
-    int cash = 10000;
     
     //Экземпляр класса Random для генерации случайных чисел
 		var rand = new Random();
@@ -14,10 +15,10 @@ public class Program
 		while(cash>0)
 		{
       //Стартуем раунд
-			Game(ref rand, ref cash);
+			Game(ref rand);
 
       //Показываем статистику
-			ShowStats(ref cash);
+			ShowStats();
 		}
     
     //Увы, деньги кончились
@@ -27,13 +28,13 @@ public class Program
     Console.ReadKey();
 	}
 	
-	static void Game(ref Random rand, ref int cash)
+	static void Game(ref Random rand)
 	{       
     ///Выбор ставки
     int intPlayerInput = GetCell();
 
     ///Выбор денежной ставки
-    int intGameCash = GetBet(cash);
+    int intGameCash = GetBet();
 		
     //Генерация случайного числа 0..36 (Крутим рулетку)
     int randomValue = rand.Next(37);
@@ -68,7 +69,7 @@ public class Program
 		cash += intGameCash;
 	}
 	
-	static void ShowStats(ref int cash)
+	static void ShowStats()
 	{
 		Console.WriteLine($"Денег осталось: {cash} $");
 	}
@@ -166,7 +167,7 @@ public class Program
     return intPlayerInput;
   }
 
-  static int GetBet(int cash)
+  static int GetBet()
   {
     //Переменная хранит значение денежной ставки
     int intGameCash = 0;
