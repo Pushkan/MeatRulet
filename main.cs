@@ -39,7 +39,7 @@ public class Program
     int randomValue = rand.Next(37);
     //Определение цвета выпавшей ячейки
     string color = CheckColor(randomValue);
-		Console.WriteLine("Выпало {0} {1}", randomValue, color);
+		Console.WriteLine($"Выпало {randomValue} {color}");
 
     //Переменная rate хранит значение коэффициента выигрыша. По умолчанию -1 (проигрыш)
 		int rate = -1;
@@ -63,14 +63,14 @@ public class Program
 
     //Считаем выигрыш
 		intGameCash *= rate;
-		Console.WriteLine("Выигрыш: {0} $", intGameCash);
+		Console.WriteLine($"Выигрыш: {intGameCash} $");
     //Добавляем к сумме денег
 		cash += intGameCash;
 	}
 	
 	static void ShowStats(ref int cash)
 	{
-		Console.WriteLine("Денег осталось: {0} $", cash);
+		Console.WriteLine($"Денег осталось: {cash} $");
 	}
 	
 	static string CheckColor(int randomValue)
@@ -173,7 +173,7 @@ public class Program
     //Пока не введена корректная денежная ставка - цикл
 		while(intGameCash <= 0 || intGameCash > cash)
 		{
-			Console.WriteLine("Сколько ставить? ({0}$)", cash);
+			Console.WriteLine($"Сколько ставить? ({cash}$)");
 			//Ввод от пользователя
       string gameCash = Console.ReadLine();
       //Попытка перевести введённое значение в integer
