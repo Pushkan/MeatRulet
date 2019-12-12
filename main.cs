@@ -11,8 +11,11 @@ public class Program
   //Переменная rate хранит значение коэффициента выигрыша. По умолчанию -1 (проигрыш)
 	static int rate = -1;
 
-  //Переменная хранит ставку в $
+  //Переменная хранит текущий выигрыш (используется для умножения коэффициента)
   static int intGameCash = 0;
+
+  //Переменная хранит ставку в $
+  static int intBet = 0;
 
 	public static void Main(string[] args)
 	{        
@@ -21,10 +24,7 @@ public class Program
 		while(cash>0)
 		{
       //Стартуем раунд
-			Game();
-
-      //Показываем статистику
-			ShowStats();
+			Game();      
 		}
     
     //Увы, деньги кончились
@@ -69,39 +69,50 @@ public class Program
 		};
 
     //Считаем выигрыш
-		intGameCash *= rate;
+		intGameCash = intBet * rate;
 		
     if(rate > 0) 
     {
       //Если захочет преумножить выигрыш
-      if(true)
+      Console.WriteLine($"Хотите преумножить выигрыш? Введите Yes (y) или No (n)");
+      string userAnswer = Console.ReadLine();
+      switch(userAnswer.ToLower())
       {
-        Console.WriteLine($"Хотите преумножить выигрыш? (коэффициенты переумножаются при победе)");
-      }
-      else
-      {
-        
-        Console.WriteLine($"Выигрыш: {intGameCash}$");
+        case "yes":
+        case "y":
+          //
+          break;
+        case "no":
+        case "n":
+        default:
+          Console.WriteLine($"Выигрыш: {intGameCash}$");
 
-        //Добавляем к сумме денег
-        cash += intGameCash;
-        rate = -1;
-        intGameCash = 0;
-      }
+          EndOfRound();
+          break;
+      }      
     }
     else
     {
-      //Добавляем к сумме денег
-		  cash += intGameCash;
-      rate = -1;
-      intGameCash = 0;
+      EndOfRound();
     }
     
 	}
 	
+static void EndOfRound()
+{
+  //Добавляем к сумме денег
+  cash += intGameCash;
+  rate = -1;
+  intGameCash = 0;
+  intBet = 0;
+  //Показываем статистику
+  ShowStats();
+}
+
 	static void ShowStats()
 	{
 		Console.WriteLine($"Денег осталось: {cash} $");
+    Console.WriteLine();
 	}
 	
 	static string CheckColor(int randomValue)
@@ -202,14 +213,14 @@ public class Program
   static int GetBet()
   {
     //Пока не введена корректная денежная ставка - цикл
-		while(intGameCash <= 0 || intGameCash > cash)
+		while(intBet <= 0 || intBet > cash)
 		{
 			Console.WriteLine($"Сколько ставить? ({cash}$)");
 			//Ввод от пользователя
       string gameCash = Console.ReadLine();
       //Попытка перевести введённое значение в integer
-			Int32.TryParse(gameCash, out intGameCash);
+			Int32.TryParse(gameCash, out intBet);
 		};
-    return intGameCash;
+    return intBet;
   }
 }
