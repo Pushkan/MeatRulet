@@ -3,19 +3,19 @@ using System;
 public class Program
 {
   //Начальная сумма денег
-  public static int cash = 10000;
+  static int cash = 10000;
+
+  //Экземпляр класса Random для генерации случайных чисел
+	static Random rand = new Random();
 
 	public static void Main(string[] args)
-	{
-    
-    //Экземпляр класса Random для генерации случайных чисел
-		var rand = new Random();
+	{        
 
     //Пока у нас не кончились деньги
 		while(cash>0)
 		{
       //Стартуем раунд
-			Game(ref rand);
+			Game();
 
       //Показываем статистику
 			ShowStats();
@@ -28,7 +28,7 @@ public class Program
     Console.ReadKey();
 	}
 	
-	static void Game(ref Random rand)
+	static void Game()
 	{       
     ///Выбор ставки
     int intPlayerInput = GetCell();
