@@ -54,17 +54,17 @@ public class Program
 			case 38:
 				//Игрок ввёл красное
 				if(color == "красное") rate = Math.Abs(rate) * 2;
-        else rate = -1;
+        else rate = 0;
 				break;
 			case 39:
         //Игрок ввёл чёрное
 				if(color == "черное") rate = Math.Abs(rate) * 2;
-        else rate = -1;
+        else rate = 0;
 				break;
 			default:
 				//Игрок ввёл число
 				if(intPlayerInput == randomValue) rate = Math.Abs(rate) * 35;
-        else rate = -1;
+        else rate = 0;
 				break;
 		};
 
@@ -221,6 +221,7 @@ static void EndOfRound()
       //Попытка перевести введённое значение в integer
 			Int32.TryParse(gameCash, out intBet);
 		};
+    cash -= intBet;
     return intBet;
   }
 }
